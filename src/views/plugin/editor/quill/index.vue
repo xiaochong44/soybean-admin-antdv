@@ -1,16 +1,17 @@
 <template>
   <div class="h-full">
-    <n-card title="富文本插件" class="shadow-sm rounded-16px">
+    <Card title="富文本插件" class="shadow-sm rounded-16px">
       <div ref="domRef" class="bg-white dark:bg-dark"></div>
       <template #footer>
         <github-link link="https://github.com/wangeditor-team/wangEditor" />
       </template>
-    </n-card>
+    </Card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { Card } from 'ant-design-vue';
 import WangEditor from 'wangeditor';
 
 const editor = ref<WangEditor>();

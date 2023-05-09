@@ -1,6 +1,6 @@
 <template>
-  <n-divider title-placement="center">布局模式</n-divider>
-  <n-space justify="space-around" :wrap="true" :size="24" class="px-12px">
+  <Divider>布局模式</Divider>
+  <Space justify="space-around" :wrap="true" :size="24" style="padding: 12px; justify-content: space-around">
     <layout-card
       v-for="item in theme.layout.modeList"
       :key="item.value"
@@ -38,10 +38,11 @@
         </div>
       </template>
     </layout-card>
-  </n-space>
+  </Space>
 </template>
 
 <script setup lang="ts">
+import { Divider, Space } from 'ant-design-vue';
 import { useThemeStore } from '@/store';
 import { LayoutCard } from './components';
 

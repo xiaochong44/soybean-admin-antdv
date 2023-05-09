@@ -5,11 +5,15 @@
       class="absolute left-48px top-24px z-3 text-20px"
       @update:dark="theme.setDarkMode"
     />
-    <n-card :bordered="false" size="large" class="z-4 !w-auto rounded-20px shadow-sm">
+    <Card
+      :bordered="false"
+      class="z-4 !w-auto rounded-20px shadow-sm"
+      :body-style="{ paddingLeft: '32px', paddingRight: '32px' }"
+    >
       <div class="w-300px sm:w-360px">
         <header class="flex-y-center justify-between">
           <system-logo class="text-64px text-primary" />
-          <n-gradient-text type="primary" :size="28">{{ title }}</n-gradient-text>
+          <span class="text-primary text-28px">{{ title }}</span>
         </header>
         <main class="pt-24px">
           <h3 class="text-18px text-primary font-medium">{{ activeModule.label }}</h3>
@@ -20,7 +24,7 @@
           </div>
         </main>
       </div>
-    </n-card>
+    </Card>
     <login-bg :theme-color="bgThemeColor" />
   </div>
 </template>
@@ -28,6 +32,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { Component } from 'vue';
+import { Card } from 'ant-design-vue';
 import { loginModuleLabels } from '@/constants';
 import { useThemeStore } from '@/store';
 import { useAppInfo } from '@/composables';

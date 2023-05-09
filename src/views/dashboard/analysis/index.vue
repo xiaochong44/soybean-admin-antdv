@@ -1,13 +1,15 @@
 <template>
-  <n-space :vertical="true" :size="16">
-    <top-chart />
-    <data-card />
-    <bottom-part />
-  </n-space>
+  <div class="p-4">
+    <Space direction="vertical" :size="16" style="width: 100%">
+      <top-chart />
+      <data-card />
+    </Space>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { BottomPart, DataCard, TopChart } from './components';
+import { Space } from 'ant-design-vue';
+import { DataCard, TopChart } from './components';
 </script>
 
 <style scoped></style>

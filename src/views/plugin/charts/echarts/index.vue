@@ -1,32 +1,35 @@
 <template>
-  <n-space :vertical="true" :size="16">
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="pieRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="lineRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="barRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="pictorialBarRef" class="h-600px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="scatterRef" class="h-600px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="radarRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="gaugeRef" class="h-640px"></div>
-    </n-card>
-  </n-space>
+  <div class="p-4">
+    <Space direction="vertical" :size="16" style="width: 100%">
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="pieRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="lineRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="barRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="pictorialBarRef" class="h-600px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="scatterRef" class="h-600px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="radarRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="gaugeRef" class="h-640px"></div>
+      </Card>
+    </Space>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { onUnmounted, ref } from 'vue';
 import type { Ref } from 'vue';
+import { Space, Card } from 'ant-design-vue';
 import { graphic } from 'echarts';
 import { type ECOption, useEcharts } from '@/composables';
 

@@ -8,7 +8,6 @@
     <header-menu v-else />
     <div class="flex justify-end h-full">
       <global-search />
-      <github-site />
       <full-screen />
       <theme-mode />
       <system-message />
@@ -24,14 +23,13 @@ import { useBasicLayout } from '@/composables';
 import GlobalLogo from '../global-logo/index.vue';
 import GlobalSearch from '../global-search/index.vue';
 import {
-  FullScreen,
-  GithubSite,
   GlobalBreadcrumb,
   HeaderMenu,
   MenuCollapse,
   SettingButton,
   SystemMessage,
   ThemeMode,
+  FullScreen,
   UserAvatar
 } from './components';
 

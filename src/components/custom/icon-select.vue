@@ -1,14 +1,14 @@
 <template>
-  <n-popover placement="bottom-end" trigger="click">
+  <Popover placement="bottomRight" trigger="click">
     <template #trigger>
-      <n-input v-model:value="modelValue" readonly placeholder="点击选择图标">
+      <Input v-model:value="modelValue" readonly placeholder="点击选择图标">
         <template #suffix>
           <svg-icon :icon="selectedIcon" class="text-30px p-5px" />
         </template>
-      </n-input>
+      </Input>
     </template>
     <template #header>
-      <n-input v-model:value="searchValue" placeholder="搜索图标"></n-input>
+      <Input v-model:value="searchValue" placeholder="搜索图标"></Input>
     </template>
     <div v-if="iconsList.length > 0" class="grid grid-cols-9 h-auto overflow-auto">
       <span v-for="iconItem in iconsList" :key="iconItem" @click="handleChange(iconItem)">
@@ -19,12 +19,13 @@
         />
       </span>
     </div>
-    <n-empty v-else class="w-306px" description="你什么也找不到" />
-  </n-popover>
+    <Empty v-else class="w-306px" description="你什么也找不到" />
+  </Popover>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { Popover, Input, Empty } from 'ant-design-vue';
 
 defineOptions({ name: 'IconSelect' });
 

@@ -1,35 +1,27 @@
 <template>
   <div ref="tabRef" class="flex h-full pr-18px" :class="[isChromeMode ? 'items-end' : 'items-center gap-12px']">
-    <AdminTab
-      v-for="item in tab.tabs"
-      :key="item.fullPath"
-      :mode="theme.tab.mode"
-      :dark-mode="theme.darkMode"
-      :active="tab.activeTab === item.fullPath"
-      :active-color="theme.themeColor"
-      :closable="!(item.name === tab.homeTab.name || item.meta.affix)"
-      @click="tab.handleClickTab(item.fullPath)"
-      @close="tab.removeTab(item.fullPath)"
-      @contextmenu="handleContextMenu($event, item.fullPath, item.meta.affix)"
+    <context-menu v-for="item in tab.tabs" :key="item.fullPath" :current-path="item.fullPath" :affix="item.meta.affix"
+      ><AdminTab
+        :mode="theme.tab.mode"
+        :dark-mode="theme.darkMode"
+        :active="tab.activeTab === item.fullPath"
+        :active-color="theme.themeColor"
+        :closable="!(item.name === tab.homeTab.name || item.meta.affix)"
+        @click="tab.handleClickTab(item.fullPath)"
+        @close="tab.removeTab(item.fullPath)"
+        @contextmenu="handleContextMenu($event, item.fullPath, item.meta.affix)"
+      >
+        <template #prefix>
+          <svg-icon
+            :icon="item.meta.icon"
+            :local-icon="item.meta.localIcon"
+            class="inline-block align-text-bottom text-16px"
+          />
+        </template>
+        {{ item.meta.title }}
+      </AdminTab></context-menu
     >
-      <template #prefix>
-        <svg-icon
-          :icon="item.meta.icon"
-          :local-icon="item.meta.localIcon"
-          class="inline-block align-text-bottom text-16px"
-        />
-      </template>
-      {{ item.meta.title }}
-    </AdminTab>
   </div>
-  <context-menu
-    :visible="dropdown.visible"
-    :current-path="dropdown.currentPath"
-    :affix="dropdown.affix"
-    :x="dropdown.x"
-    :y="dropdown.y"
-    @update:visible="handleDropdownVisible"
-  />
 </template>
 
 <script setup lang="ts">
@@ -85,21 +77,11 @@ function setDropdown(config: Partial<DropdownConfig>) {
   Object.assign(dropdown, config);
 }
 
-let isClickContextMenu = false;
-
-function handleDropdownVisible(visible: boolean) {
-  if (!isClickContextMenu) {
-    setDropdown({ visible });
-  }
-}
-
 /** 点击右键菜单 */
 async function handleContextMenu(e: MouseEvent, currentPath: string, affix?: boolean) {
   e.preventDefault();
 
   const { clientX, clientY } = e;
-
-  isClickContextMenu = true;
 
   const DURATION = dropdown.visible ? 150 : 0;
 
@@ -113,7 +95,6 @@ async function handleContextMenu(e: MouseEvent, currentPath: string, affix?: boo
       currentPath,
       affix
     });
-    isClickContextMenu = false;
   }, DURATION);
 }
 

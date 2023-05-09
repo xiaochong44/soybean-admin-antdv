@@ -1,35 +1,37 @@
 <template>
-  <n-form ref="formRef" :model="model" :rules="rules" size="large" :show-label="false">
-    <n-form-item path="phone">
-      <n-input v-model:value="model.phone" placeholder="手机号码" />
-    </n-form-item>
-    <n-form-item path="code">
+  <Form ref="formRef" :model="model" :rules="rules" size="large" :show-label="false">
+    <FormItem name="phone">
+      <Input v-model:value="model.phone" placeholder="手机号码" />
+    </FormItem>
+    <FormItem name="code">
       <div class="flex-y-center w-full">
-        <n-input v-model:value="model.code" placeholder="验证码" />
+        <Input v-model:value="model.code" placeholder="验证码" />
         <div class="w-18px"></div>
-        <n-button size="large" :disabled="isCounting" :loading="smsLoading" @click="handleSmsCode">
+        <Button size="large" :disabled="isCounting" :loading="smsLoading" @click="handleSmsCode">
           {{ label }}
-        </n-button>
+        </Button>
       </div>
-    </n-form-item>
-    <n-space :vertical="true" size="large">
-      <n-button type="primary" size="large" :block="true" :round="true" @click="handleSubmit">确定</n-button>
-      <n-button size="large" :block="true" :round="true" @click="toLoginModule('pwd-login')">返回</n-button>
-    </n-space>
-  </n-form>
+    </FormItem>
+    <div>
+      <Button type="primary" size="large" block @click="handleSubmit">确定</Button>
+      <Button class="mt-4" size="large" block @click="toLoginModule('pwd-login')">返回</Button>
+    </div>
+  </Form>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import type { FormInst } from 'naive-ui';
+import type { FormInstance } from 'ant-design-vue';
+import { Form, Button, Input, message } from 'ant-design-vue';
 import { useRouterPush } from '@/composables';
 import { useSmsCode } from '@/hooks';
 import { formRules } from '@/utils';
 
+const FormItem = Form.Item;
 const { toLoginModule } = useRouterPush();
 const { label, isCounting, loading: smsLoading, getSmsCode } = useSmsCode();
 
-const formRef = ref<HTMLElement & FormInst>();
+const formRef = ref<HTMLElement & FormInstance>();
 
 const model = reactive({
   phone: '',
@@ -48,7 +50,7 @@ function handleSmsCode() {
 
 async function handleSubmit() {
   await formRef.value?.validate();
-  window.$message?.success('验证成功!');
+  message.success('验证成功!');
 }
 </script>
 

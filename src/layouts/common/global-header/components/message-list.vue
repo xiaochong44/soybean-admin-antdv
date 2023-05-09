@@ -1,40 +1,35 @@
 <template>
-  <n-scrollbar class="max-h-360px">
-    <n-list>
-      <n-list-item
-        v-for="(item, index) in list"
-        :key="item.id"
-        class="hover:bg-#f6f6f6 dark:hover:bg-dark cursor-pointer"
-        @click="handleRead(index)"
-      >
-        <n-thing class="px-15px" :class="{ 'opacity-30': item.isRead }">
-          <template #avatar>
-            <n-avatar v-if="item.avatar" :src="item.avatar" />
-            <svg-icon v-else class="text-34px text-primary" :icon="item.icon" :local-icon="item.svgIcon" />
-          </template>
-          <template #header>
-            <n-ellipsis :line-clamp="1">
-              {{ item.title }}
-              <template #tooltip>
+  <div class="max-h-360px overflow-auto">
+    <List :data-source="list">
+      <template #renderItem="{ item, index }">
+        <ListItem :key="item.id" class="hover:bg-#f6f6f6 dark:hover:bg-dark cursor-pointer" @click="handleRead(index)">
+          <ListItemMeta>
+            <template #avatar>
+              <Avatar v-if="item.avatar" :src="item.avatar" />
+              <svg-icon v-else class="text-34px text-primary" :icon="item.icon" :local-icon="item.svgIcon" />
+            </template>
+            <template #title>
+              <div :line-clamp="1">
                 {{ item.title }}
-              </template>
-            </n-ellipsis>
-          </template>
-          <template v-if="item.tagTitle" #header-extra>
-            <n-tag v-bind="item.tagProps" size="small">{{ item.tagTitle }}</n-tag>
-          </template>
-          <template #description>
-            <n-ellipsis v-if="item.description" :line-clamp="2">
-              {{ item.description }}
-            </n-ellipsis>
-            <p>{{ item.date }}</p>
-          </template>
-        </n-thing>
-      </n-list-item>
-    </n-list>
-  </n-scrollbar>
+              </div>
+            </template>
+            <template v-if="item.tagTitle" #header-extra>
+              <Tag v-bind="item.tagProps" size="small">{{ item.tagTitle }}</Tag>
+            </template>
+            <template #description>
+              <div v-if="item.description" :line-clamp="2">
+                {{ item.description }}
+              </div>
+              <p>{{ item.date }}</p>
+            </template>
+          </ListItemMeta>
+        </ListItem>
+      </template>
+    </List>
+  </div>
 </template>
 <script lang="ts" setup>
+import { List, ListItem, ListItemMeta, Tag, Avatar } from 'ant-design-vue';
 defineOptions({ name: 'MessageList' });
 
 interface Props {

@@ -1,18 +1,17 @@
 <template>
-  <n-dropdown
-    :show="dropdownVisible"
-    :options="options"
-    placement="bottom-start"
-    :x="x"
-    :y="y"
-    @clickoutside="hide"
-    @select="handleDropdown"
-  />
+  <Dropdown placement="bottomLeft" :trigger="['contextmenu']">
+    <slot />
+    <template #overlay>
+      <Menu :items="options" @click="handleDropdown" />
+    </template>
+  </Dropdown>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { DropdownOption } from 'naive-ui';
+import { Dropdown, Menu } from 'ant-design-vue';
+import type { ItemType } from 'ant-design-vue/es/menu/src/hooks/useItems';
+import type { MenuInfo } from 'ant-design-vue/es/menu/src/interface';
 import { useAppStore, useTabStore } from '@/store';
 import { useIconRender } from '@/composables';
 
@@ -25,10 +24,6 @@ interface Props {
   currentPath?: string;
   /** 是否固定在tab卡不可关闭  */
   affix?: boolean;
-  /** 鼠标x坐标 */
-  x: number;
-  /** 鼠标y坐标 */
-  y: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -67,7 +62,7 @@ type DropdownKey =
   | 'close-left'
   | 'close-right'
   | 'close-all';
-type Option = DropdownOption & {
+type Option = ItemType & {
   key: DropdownKey;
 };
 
@@ -156,8 +151,8 @@ const actionMap = new Map<DropdownKey, () => void>([
   ]
 ]);
 
-function handleDropdown(optionKey: string) {
-  const key = optionKey as DropdownKey;
+function handleDropdown(info: MenuInfo) {
+  const key = info.key as DropdownKey;
   const actionFunc = actionMap.get(key);
   if (actionFunc) {
     actionFunc();

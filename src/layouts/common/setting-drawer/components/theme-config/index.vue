@@ -1,16 +1,17 @@
 <template>
-  <n-divider title-placement="center">主题配置</n-divider>
+  <Divider>主题配置</Divider>
   <textarea id="themeConfigCopyTarget" v-model="dataClipboardText" class="absolute opacity-0" />
-  <n-space vertical>
+  <Space direction="vertical" style="width: 100%">
     <div ref="copyRef" data-clipboard-target="#themeConfigCopyTarget">
-      <n-button type="primary" :block="true">拷贝当前配置</n-button>
+      <Button type="primary" :block="true">拷贝当前配置</Button>
     </div>
-    <n-button type="warning" :block="true" @click="handleResetConfig">重置当前配置</n-button>
-  </n-space>
+    <Button :block="true" @click="handleResetConfig">重置当前配置</Button>
+  </Space>
 </template>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { Divider, Space, Button, message, Modal } from 'ant-design-vue';
 import Clipboard from 'clipboard';
 import { useThemeStore } from '@/store';
 
@@ -28,17 +29,17 @@ function getClipboardText() {
 
 function handleResetConfig() {
   theme.resetThemeStore();
-  window.$message?.success('已重置配置，请重新拷贝！');
+  message?.success('已重置配置，请重新拷贝！');
 }
 
 function clipboardEventListener() {
   if (!copyRef.value) return;
   const copy = new Clipboard(copyRef.value);
   copy.on('success', () => {
-    window.$dialog?.success({
+    Modal.success({
       title: '操作成功',
       content: '复制成功,请替换 src/settings/theme.json的内容！',
-      positiveText: '确定'
+      okText: '确定'
     });
   });
 }

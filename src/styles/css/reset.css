@@ -333,7 +333,7 @@ Make sure disabled buttons don't get the pointer cursor.
 2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
    This can trigger a poorly considered lint error in some tools but is included by design.
 */
-
+/*
 img,
 svg,
 video,
@@ -342,10 +342,10 @@ audio,
 iframe,
 embed,
 object {
-	display: block; /* 1 */
-	vertical-align: middle; /* 2 */
+	display: block;
+	vertical-align: middle;
 }
-
+ */
 /*
 Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
 */

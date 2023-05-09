@@ -17,7 +17,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Component } from 'vue';
 import { useBoolean } from '@/hooks';
 
 defineOptions({ name: 'MixMenuDetail' });
@@ -30,7 +29,7 @@ interface Props {
   /** 当前激活状态的理由名称 */
   activeRouteName: string;
   /** 路由图标 */
-  icon?: Component;
+  icon?: any;
   /** mini尺寸的路由 */
   isMini?: boolean;
 }

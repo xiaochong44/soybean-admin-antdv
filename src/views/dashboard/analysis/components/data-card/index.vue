@@ -1,6 +1,6 @@
 <template>
-  <n-grid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
-    <n-grid-item v-for="item in cardData" :key="item.id">
+  <Row cols="s:1 m:2 l:4" responsive="screen" :gutter="[16, 16]">
+    <Col v-for="item in cardData" :key="item.id" :sm="24" :md="12" :lg="6">
       <gradient-bg class="h-100px" :start-color="item.colors[0]" :end-color="item.colors[1]">
         <h3 class="text-16px">{{ item.title }}</h3>
         <div class="flex justify-between pt-12px">
@@ -13,11 +13,12 @@
           />
         </div>
       </gradient-bg>
-    </n-grid-item>
-  </n-grid>
+    </Col>
+  </Row>
 </template>
 
 <script setup lang="ts">
+import { Row, Col } from 'ant-design-vue';
 import { GradientBg } from './components';
 
 defineOptions({ name: 'DashboardAnalysisDataCard' });

@@ -1,17 +1,17 @@
 <template>
-  <n-divider title-placement="center">界面显示</n-divider>
-  <n-space vertical size="large">
+  <Divider>界面显示</Divider>
+  <Space direction="vertical" style="width: 100%">
     <setting-menu label="面包屑">
-      <n-switch :value="theme.header.crumb.visible" @update:value="theme.setHeaderCrumbVisible" />
+      <Switch :checked="theme.header.crumb.visible" @update:checked="theme.setHeaderCrumbVisible" />
     </setting-menu>
     <setting-menu label="面包屑图标">
-      <n-switch :value="theme.header.crumb.showIcon" @update:value="theme.setHeaderCrumbIconVisible" />
+      <Switch :checked="theme.header.crumb.showIcon" @update:checked="theme.setHeaderCrumbIconVisible" />
     </setting-menu>
     <setting-menu label="多页签">
-      <n-switch :value="theme.tab.visible" @update:value="theme.setTabVisible" />
+      <Switch :checked="theme.tab.visible" @update:checked="theme.setTabVisible" />
     </setting-menu>
     <setting-menu label="多页签风格">
-      <n-select
+      <Select
         class="w-120px"
         size="small"
         :value="theme.tab.mode"
@@ -20,10 +20,10 @@
       />
     </setting-menu>
     <setting-menu label="页面切换动画">
-      <n-switch :value="theme.page.animate" @update:value="theme.setPageIsAnimate" />
+      <Switch :checked="theme.page.animate" @update:checked="theme.setPageIsAnimate" />
     </setting-menu>
     <setting-menu label="页面切换动画类型">
-      <n-select
+      <Select
         class="w-120px"
         size="small"
         :value="theme.page.animateMode"
@@ -31,10 +31,11 @@
         @update:value="theme.setPageAnimateMode"
       />
     </setting-menu>
-  </n-space>
+  </Space>
 </template>
 
 <script lang="ts" setup>
+import { Divider, Switch, Space, Select } from 'ant-design-vue';
 import { useThemeStore } from '@/store';
 import SettingMenu from '../setting-menu/index.vue';
 

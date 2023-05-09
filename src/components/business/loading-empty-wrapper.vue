@@ -3,7 +3,7 @@
     <slot></slot>
     <div v-show="showPlaceholder" class="absolute-lt w-full h-full" :class="placeholderClass">
       <div v-show="loading" class="absolute-center">
-        <n-spin :show="true" :size="loadingSize" />
+        <Spin :show="true" :size="loadingSize" />
       </div>
       <div v-show="isEmpty" class="absolute-center">
         <div class="relative">
@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onUnmounted, watch } from 'vue';
+import { Spin } from 'ant-design-vue';
 import { NETWORK_ERROR_MSG } from '@/config';
 import { useBoolean } from '@/hooks';
 
@@ -34,7 +35,7 @@ interface Props {
   /** 是否为空 */
   empty?: boolean;
   /** 加载图标的大小 */
-  loadingSize?: 'small' | 'medium' | 'large';
+  loadingSize?: 'small' | 'default' | 'large';
   /** 中间占位符的class */
   placeholderClass?: string;
   /** 空数据描述文本 */
@@ -50,7 +51,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   loading: false,
   empty: false,
-  loadingSize: 'medium',
+  loadingSize: 'default',
   placeholderClass: 'bg-white dark:bg-dark transition-background-color duration-300 ease-in-out',
   emptyDesc: '暂无数据',
   iconClass: 'text-320px text-primary',

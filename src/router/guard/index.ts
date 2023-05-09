@@ -9,7 +9,7 @@ import { createPermissionGuard } from './permission';
 export function createRouterGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
     // 开始 loadingBar
-    window.$loadingBar?.start();
+    // window.$loadingBar?.start();
     // 页面跳转权限处理
     await createPermissionGuard(to, from, next);
   });
@@ -17,6 +17,6 @@ export function createRouterGuard(router: Router) {
     // 设置document title
     useTitle(to.meta.title);
     // 结束 loadingBar
-    window.$loadingBar?.finish();
+    // window.$loadingBar?.finish();
   });
 }

@@ -12,7 +12,7 @@
     :sider-visible="siderVisible"
     :sider-collapse="app.siderCollapse"
     :sider-width="siderWidth"
-    :sider-collapsed-width="siderCollapsedWidth"
+    :sider-collapsed-width="80"
     :footer-visible="theme.footer.visible"
     :fixed-footer="theme.footer.fixed"
     :right-footer="theme.footer.right"
@@ -31,11 +31,12 @@
       <global-footer />
     </template>
   </admin-layout>
-  <n-back-top :key="theme.scrollMode" :listen-to="`#${app.scrollElId}`" class="z-100" />
+  <BackTop :key="theme.scrollMode" :listen-to="`#${app.scrollElId}`" class="z-100" />
   <setting-drawer />
 </template>
 
 <script setup lang="ts">
+import { BackTop } from 'ant-design-vue';
 import { AdminLayout } from '@soybeanjs/vue-materials';
 import { useAppStore, useThemeStore } from '@/store';
 import { useBasicLayout } from '@/composables';
@@ -46,7 +47,7 @@ defineOptions({ name: 'BasicLayout' });
 const app = useAppStore();
 const theme = useThemeStore();
 
-const { mode, headerProps, siderVisible, siderWidth, siderCollapsedWidth } = useBasicLayout();
+const { mode, headerProps, siderVisible, siderWidth } = useBasicLayout();
 </script>
 
 <style lang="scss">

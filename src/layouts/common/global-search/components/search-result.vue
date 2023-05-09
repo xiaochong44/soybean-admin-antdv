@@ -1,5 +1,5 @@
 <template>
-  <n-scrollbar>
+  <div class="overflow-y-auto max-h-lg">
     <div class="pb-12px">
       <template v-for="item in options" :key="item.path">
         <div
@@ -17,7 +17,7 @@
         </div>
       </template>
     </div>
-  </n-scrollbar>
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -1,13 +1,14 @@
 <template>
   <div class="w-full text-14px">
-    <n-checkbox v-model:checked="checked">我已经仔细阅读并接受</n-checkbox>
-    <n-button :text="true" type="primary" @click="handleClickProtocol">《用户协议》</n-button>
-    <n-button :text="true" type="primary" @click="handleClickPolicy">《隐私权政策》</n-button>
+    <Checkbox v-model:checked="checked">我已经仔细阅读并接受</Checkbox>
+    <a class="text-primary" @click="handleClickProtocol">《用户协议》</a>
+    <a class="text-primary" @click="handleClickPolicy">《隐私权政策》</a>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { Checkbox } from 'ant-design-vue';
 
 defineOptions({ name: 'LoginAgreement' });
 

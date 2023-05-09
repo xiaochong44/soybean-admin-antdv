@@ -1,9 +1,10 @@
 <template>
-  <n-divider title-placement="center">界面功能</n-divider>
-  <n-space vertical size="large">
+  <Divider>界面功能</Divider>
+  <Space direction="vertical" style="width: 100%">
     <setting-menu label="滚动模式">
-      <n-select
+      <Select
         class="w-120px"
+        :popup-class-name="'z-10000'"
         size="small"
         :value="theme.scrollMode"
         :options="theme.scrollModeList"
@@ -11,11 +12,12 @@
       />
     </setting-menu>
     <setting-menu label="固定头部和多页签">
-      <n-switch :value="theme.fixedHeaderAndTab" @update:value="theme.setIsFixedHeaderAndTab" />
+      <Switch :checked="theme.fixedHeaderAndTab" @update:checked="theme.setIsFixedHeaderAndTab" />
     </setting-menu>
     <setting-menu label="顶部菜单位置">
-      <n-select
+      <Select
         class="w-120px"
+        :popup-class-name="'z-10000'"
         size="small"
         :value="theme.menu.horizontalPosition"
         :options="theme.menu.horizontalPositionList"
@@ -23,7 +25,7 @@
       />
     </setting-menu>
     <setting-menu label="头部高度">
-      <n-input-number
+      <InputNumber
         class="w-120px"
         size="small"
         :value="theme.header.height"
@@ -32,7 +34,7 @@
       />
     </setting-menu>
     <setting-menu label="多页签高度">
-      <n-input-number
+      <InputNumber
         class="w-120px"
         size="small"
         :value="theme.tab.height"
@@ -41,10 +43,10 @@
       />
     </setting-menu>
     <setting-menu label="多页签缓存">
-      <n-switch :value="theme.tab.isCache" @update:value="theme.setTabIsCache" />
+      <Switch :checked="theme.tab.isCache" @update:checked="theme.setTabIsCache" />
     </setting-menu>
     <setting-menu label="侧边栏展开宽度">
-      <n-input-number
+      <InputNumber
         class="w-120px"
         size="small"
         :value="theme.sider.width"
@@ -53,7 +55,7 @@
       />
     </setting-menu>
     <setting-menu label="左侧混合侧边栏展开宽度">
-      <n-input-number
+      <InputNumber
         class="w-120px"
         size="small"
         :value="theme.sider.mixWidth"
@@ -62,18 +64,19 @@
       />
     </setting-menu>
     <setting-menu label="显示底部">
-      <n-switch :value="theme.footer.visible" @update:value="theme.setFooterVisible" />
+      <Switch :checked="theme.footer.visible" @update:checked="theme.setFooterVisible" />
     </setting-menu>
     <setting-menu label="固定底部">
-      <n-switch :value="theme.footer.fixed" @update:value="theme.setFooterIsFixed" />
+      <Switch :checked="theme.footer.fixed" @update:checked="theme.setFooterIsFixed" />
     </setting-menu>
     <setting-menu label="底部居右">
-      <n-switch :value="theme.footer.right" @update:value="theme.setFooterIsRight" />
+      <Switch :checked="theme.footer.right" @update:checked="theme.setFooterIsRight" />
     </setting-menu>
-  </n-space>
+  </Space>
 </template>
 
 <script lang="ts" setup>
+import { Divider, Switch, Space, Select, InputNumber } from 'ant-design-vue';
 import { useThemeStore } from '@/store';
 import SettingMenu from '../setting-menu/index.vue';
 

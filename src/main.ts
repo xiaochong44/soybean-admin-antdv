@@ -6,6 +6,7 @@ import { setupRouter } from './router';
 import { setupAssets } from './plugins';
 import { setupStore } from './store';
 import { setupI18n } from './locales';
+import 'vue3-colorpicker/style.css';
 
 async function setupApp() {
   // import assets: js、css
@@ -17,7 +18,6 @@ async function setupApp() {
   appLoading.mount('#appLoading');
 
   const app = createApp(App);
-
   // store plugin: pinia
   setupStore(app);
 

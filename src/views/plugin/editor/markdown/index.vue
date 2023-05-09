@@ -1,16 +1,17 @@
 <template>
   <div class="h-full">
-    <n-card title="markdown插件" class="shadow-sm rounded-16px">
+    <Card title="markdown插件" class="shadow-sm rounded-16px">
       <div ref="domRef"></div>
       <template #footer>
         <github-link link="https://github.com/Vanessa219/vditor" />
       </template>
-    </n-card>
+    </Card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { Card } from 'ant-design-vue';
 import Vditor from 'vditor';
 import 'vditor/dist/index.css';
 import { useThemeStore } from '@/store';

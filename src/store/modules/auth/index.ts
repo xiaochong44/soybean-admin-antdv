@@ -1,5 +1,6 @@
 import { unref, nextTick } from 'vue';
 import { defineStore } from 'pinia';
+import { notification } from 'ant-design-vue';
 import { router } from '@/router';
 import { fetchLogin, fetchUserInfo } from '@/service';
 import { useRouterPush } from '@/composables';
@@ -67,9 +68,9 @@ export const useAuthStore = defineStore('auth-store', {
 
         // 登录成功弹出欢迎提示
         if (route.isInitAuthRoute) {
-          window.$notification?.success({
-            title: '登录成功!',
-            content: `欢迎回来，${this.userInfo.userName}!`,
+          notification.success({
+            message: '登录成功!',
+            description: `欢迎回来，${this.userInfo.userName}!`,
             duration: 3000
           });
         }

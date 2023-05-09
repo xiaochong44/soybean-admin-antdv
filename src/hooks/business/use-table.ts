@@ -1,13 +1,13 @@
 import { ref, reactive } from 'vue';
 import type { Ref } from 'vue';
-import type { DataTableBaseColumn, DataTableSelectionColumn, DataTableExpandColumn, PaginationProps } from 'naive-ui';
-import type { TableColumnGroup, InternalRowData } from 'naive-ui/es/data-table/src/interface';
+import type { PaginationProps } from 'ant-design-vue';
+import type { ColumnType } from 'ant-design-vue/es/table/interface';
 import { useLoadingEmpty } from '../common';
 
 /**
  * 表格分页参数
  */
-type PaginationParams = Pick<PaginationProps, 'page' | 'pageSize'>;
+type PaginationParams = Pick<PaginationProps, 'current' | 'pageSize'>;
 
 /**
  * 表格请求接口的参数
@@ -40,11 +40,7 @@ type TransformedTableData<TableData = Record<string, unknown>> = {
 /**
  * 表格的列
  */
-type DataTableColumn<T = InternalRowData> =
-  | (Omit<TableColumnGroup<T>, 'key'> & { key: keyof T })
-  | (Omit<DataTableBaseColumn<T>, 'key'> & { key: keyof T })
-  | DataTableSelectionColumn<T>
-  | DataTableExpandColumn<T>;
+type DataTableColumn<T> = ColumnType<T>;
 
 /**
  * 表格数据转换器
@@ -87,11 +83,11 @@ export function useTable<TableData extends Record<string, unknown>, Params exten
   const pagination = reactive({
     ...getPagination(params.pagination),
     onChange: (page: number) => {
-      pagination.page = page;
+      pagination.current = page;
     },
     onUpdatePageSize: (pageSize: number) => {
       pagination.pageSize = pageSize;
-      pagination.page = 1;
+      pagination.current = 1;
     }
   }) as PaginationProps;
 
@@ -101,7 +97,7 @@ export function useTable<TableData extends Record<string, unknown>, Params exten
 
   async function getData() {
     const apiParams: Params = { ...params.apiParams };
-    apiParams.page = apiParams.page || pagination.page;
+    apiParams.current = apiParams.current || pagination.current;
     apiParams.pageSize = apiParams.pageSize || pagination.pageSize;
 
     startLoading();
@@ -116,7 +112,7 @@ export function useTable<TableData extends Record<string, unknown>, Params exten
 
       setEmpty(transformedData.data.length === 0);
 
-      updatePagination({ page: transformedData.pageNum, pageSize: transformedData.pageSize });
+      updatePagination({ current: transformedData.pageNum, pageSize: transformedData.pageSize });
     }
 
     endLoading();
@@ -140,10 +136,10 @@ export function useTable<TableData extends Record<string, unknown>, Params exten
 
 function getPagination(pagination?: Partial<PaginationProps>) {
   const defaultPagination: Partial<PaginationProps> = {
-    page: 1,
+    current: 1,
     pageSize: 10,
-    showSizePicker: true,
-    pageSizes: [10, 15, 20, 25, 30]
+    showSizeChanger: true,
+    pageSizeOptions: [10, 15, 20, 25, 30]
   };
   Object.assign(defaultPagination, pagination);
 

@@ -1,13 +1,13 @@
 <template>
   <div class="wh-full flex-col-center">
-    <n-gradient-text class="mb-24px" type="primary" :size="28">Custom Constant Page</n-gradient-text>
+    <div class="mb-24px text-primary text-28px">Custom Constant Page</div>
     <router-link :to="{ name: routeHomePath }">
-      <n-button type="primary">回到首页</n-button>
+      <Button type="primary">回到首页</Button>
     </router-link>
-    <n-card :bordered="false" size="small" class="mt-24px rounded-16px shadow-sm">
+    <Card :bordered="false" size="small" class="mt-24px rounded-16px shadow-sm">
       <div class="flex-center py-12px">
-        <n-button type="primary" class="mr-24px" :disabled="isMoving" @click="startMove">开始</n-button>
-        <n-button type="error" @click="endMove">暂停</n-button>
+        <Button type="primary" class="mr-24px" :disabled="isMoving" @click="startMove">开始</Button>
+        <Button danger @click="endMove">暂停</Button>
       </div>
       <div class="flex-center">
         <div class="relative bg-primary_active" :style="containerStyle">
@@ -24,12 +24,13 @@
           <div class="absolute left-182px top-82px w-40px h-40px bg-red rounded-20px" :style="transformStyle"></div>
         </div>
       </div>
-    </n-card>
+    </Card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { Button, Card } from 'ant-design-vue';
 import { routeName } from '@/router';
 
 const routeHomePath = routeName('root');

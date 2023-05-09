@@ -1,12 +1,12 @@
 <template>
   <div>
-    <n-card title="Swiper插件" class="shadow-sm rounded-16px">
-      <n-space :vertical="true">
+    <Card title="Swiper插件" class="shadow-sm rounded-16px">
+      <Space :vertical="true">
         <github-link link="https://github.com/nolimits4web/swiper" />
         <web-site-link label="vue3版文档地址：" link="https://swiperjs.com/vue" />
         <web-site-link label="插件demo地址：" link="https://swiperjs.com/demos" />
-      </n-space>
-      <n-space :vertical="true">
+      </Space>
+      <Space :vertical="true">
         <div v-for="item in swiperExample" :key="item.id">
           <h3 class="py-24px text-24px font-bold">{{ item.label }}</h3>
           <swiper v-bind="item.options">
@@ -15,12 +15,13 @@
             </swiper-slide>
           </swiper>
         </div>
-      </n-space>
-    </n-card>
+      </Space>
+    </Card>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Card, Space } from 'ant-design-vue';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import type { SwiperOptions } from 'swiper';

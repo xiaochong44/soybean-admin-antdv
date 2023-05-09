@@ -1,9 +1,9 @@
 <template>
-  <n-breadcrumb class="px-12px">
+  <Breadcrumb class="px-12px">
     <template v-for="breadcrumb in breadcrumbs" :key="breadcrumb.key">
-      <n-breadcrumb-item>
-        <n-dropdown v-if="breadcrumb.hasChildren" :options="breadcrumb.options" @select="dropdownSelect">
-          <span>
+      <BreadcrumbItem>
+        <Dropdown v-if="breadcrumb.hasChildren">
+          <span class="cursor-pointer">
             <component
               :is="breadcrumb.icon"
               v-if="theme.header.crumb.showIcon"
@@ -11,7 +11,14 @@
             />
             <span>{{ breadcrumb.label }}</span>
           </span>
-        </n-dropdown>
+          <template #overlay>
+            <Menu @click="dropdownSelect">
+              <MenuItem v-for="item in breadcrumb.options" :key="item.key">
+                <a>{{ item.label }}</a>
+              </MenuItem>
+            </Menu>
+          </template>
+        </Dropdown>
         <template v-else>
           <component
             :is="breadcrumb.icon"
@@ -21,14 +28,16 @@
           />
           <span :class="{ 'text-#BBBBBB': theme.header.inverted }">{{ breadcrumb.label }}</span>
         </template>
-      </n-breadcrumb-item>
+      </BreadcrumbItem>
     </template>
-  </n-breadcrumb>
+  </Breadcrumb>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { Breadcrumb, BreadcrumbItem, Dropdown, Menu, MenuItem } from 'ant-design-vue';
+import type { MenuInfo } from 'ant-design-vue/es/menu/src/interface';
 import { routePath } from '@/router';
 import { useRouteStore, useThemeStore } from '@/store';
 import { useRouterPush } from '@/composables';
@@ -45,8 +54,8 @@ const breadcrumbs = computed(() =>
   getBreadcrumbByRouteKey(route.name as string, routeStore.menus as App.GlobalMenuOption[], routePath('root'))
 );
 
-function dropdownSelect(key: string) {
-  routerPush({ name: key });
+function dropdownSelect(info: MenuInfo) {
+  routerPush({ name: info.key as string });
 }
 </script>
 

@@ -1,17 +1,18 @@
 <template>
   <div class="h-full">
-    <n-card title="地图插件" class="h-full shadow-sm rounded-16px" content-style="overflow:hidden">
-      <n-tabs type="line" class="flex-col-stretch h-full" pane-class="flex-1-hidden">
-        <n-tab-pane v-for="item in maps" :key="item.id" :name="item.id" :tab="item.label">
+    <Card title="地图插件" class="h-full shadow-sm rounded-16px" content-style="overflow:hidden">
+      <Tabs type="line" class="flex-col-stretch h-full" pane-class="flex-1-hidden">
+        <TabPane v-for="item in maps" :key="item.id" :name="item.id" :tab="item.label">
           <component :is="item.component" />
-        </n-tab-pane>
-      </n-tabs>
-    </n-card>
+        </TabPane>
+      </Tabs>
+    </Card>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Component } from 'vue';
+import { Card, Tabs, TabPane } from 'ant-design-vue';
 import { BaiduMap, GaodeMap, TencentMap } from './components';
 
 interface Map {

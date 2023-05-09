@@ -235,7 +235,7 @@ declare namespace App {
   }
 
   /** 菜单项配置 */
-  type GlobalMenuOption = import('naive-ui').MenuOption & {
+  type GlobalMenuOption = import('ant-design-vue/es/menu').ItemType & {
     key: string;
     label: string;
     routeName: string;
@@ -245,14 +245,14 @@ declare namespace App {
   };
 
   /** 面包屑 */
-  type GlobalBreadcrumb = Omit<import('naive-ui').DropdownOption, 'icon'> & {
+  type GlobalBreadcrumb = Omit<import('ant-design-vue').DropdownProps, 'icon'> & {
     key: string;
     label: string;
     disabled: boolean;
     routeName: string;
     hasChildren: boolean;
     icon?: import('vue').Component;
-    options?: import('naive-ui/es/dropdown/src/interface').DropdownMixedOption[];
+    options?: any[];
   };
 
   /** 多页签Tab的路由 */
@@ -271,9 +271,9 @@ declare namespace App {
     /** tab名称 */
     name: string;
     /** badge类型 */
-    badgeProps?: import('naive-ui').BadgeProps;
+    badgeProps?: import('ant-design-vue').BadgeProps;
     /** 消息数据 */
-    list: MessageList[];
+    list: App.MessageList[];
   }
 
   interface MessageList {
@@ -295,7 +295,7 @@ declare namespace App {
     /** 标签名称 */
     tagTitle?: string;
     /** 标签props */
-    tagProps?: import('naive-ui').TagProps;
+    tagProps?: import('ant-design-vue').TagProps;
   }
 }
 

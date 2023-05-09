@@ -1,39 +1,40 @@
 <template>
-  <n-divider title-placement="center">主题模式</n-divider>
-  <n-space vertical size="large">
+  <Divider>主题模式</Divider>
+  <Space direction="vertical" style="width: 100%">
     <setting-menu label="深色主题">
-      <n-switch :value="theme.darkMode" @update:value="theme.setDarkMode">
-        <template #checked>
+      <Switch :checked="theme.darkMode" @update:checked="theme.setDarkMode">
+        <template #checkedChildren>
           <icon-mdi-white-balance-sunny class="text-14px text-white" />
         </template>
-        <template #unchecked>
+        <template #unCheckedChildren>
           <icon-mdi-moon-waning-crescent class="text-14px text-white" />
         </template>
-      </n-switch>
+      </Switch>
     </setting-menu>
     <setting-menu label="跟随系统">
-      <n-switch :value="theme.followSystemTheme" @update:value="theme.setFollowSystemTheme">
-        <template #checked>
+      <Switch :checked="theme.followSystemTheme" @update:checked="theme.setFollowSystemTheme">
+        <template #checkedChildren>
           <icon-ic-baseline-do-not-disturb class="text-14px text-white" />
         </template>
-        <template #unchecked>
+        <template #unCheckedChildren>
           <icon-ic-round-hdr-auto class="text-14px text-white" />
         </template>
-      </n-switch>
+      </Switch>
     </setting-menu>
     <setting-menu label="侧边栏深色">
-      <n-switch :value="theme.sider.inverted" @update:value="theme.setSiderInverted" />
+      <Switch :checked="theme.sider.inverted" @update:checked="theme.setSiderInverted" />
     </setting-menu>
     <setting-menu label="头部深色">
-      <n-switch :value="theme.header.inverted" @update:value="theme.setHeaderInverted" />
+      <Switch :checked="theme.header.inverted" @update:checked="theme.setHeaderInverted" />
     </setting-menu>
     <setting-menu label="底部深色">
-      <n-switch :value="theme.footer.inverted" @update:value="theme.setFooterInverted" />
+      <Switch :checked="theme.footer.inverted" @update:checked="theme.setFooterInverted" />
     </setting-menu>
-  </n-space>
+  </Space>
 </template>
 
 <script lang="ts" setup>
+import { Divider, Switch, Space } from 'ant-design-vue';
 import { useThemeStore } from '@/store';
 import SettingMenu from '../setting-menu/index.vue';
 

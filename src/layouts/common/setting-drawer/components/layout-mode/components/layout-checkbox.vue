@@ -3,21 +3,19 @@
     class="border-2px rounded-6px cursor-pointer hover:border-primary"
     :class="[checked ? 'border-primary' : 'border-transparent']"
   >
-    <n-tooltip :placement="activeConfig.placement" trigger="hover">
-      <template #trigger>
-        <div class="layout-checkbox__shadow relative w-56px h-48px bg-white rounded-4px overflow-hidden">
-          <div class="absolute-lt bg-#273352" :class="activeConfig.menuClass"></div>
-          <div class="absolute-rb bg-#f0f2f5" :class="activeConfig.mainClass"></div>
-        </div>
-      </template>
-      <span>{{ label }}</span>
-    </n-tooltip>
+    <Tooltip :placement="activeConfig.placement" trigger="hover" :title="label">
+      <div class="layout-checkbox__shadow relative w-56px h-48px bg-white rounded-4px overflow-hidden">
+        <div class="absolute-lt bg-#273352" :class="activeConfig.menuClass"></div>
+        <div class="absolute-rb bg-#f0f2f5" :class="activeConfig.mainClass"></div>
+      </div>
+    </Tooltip>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { PopoverPlacement } from 'naive-ui';
+import { Tooltip } from 'ant-design-vue';
+import type { TooltipPlacement } from 'ant-design-vue/es/tooltip';
 
 defineOptions({ name: 'LayoutCheckbox' });
 
@@ -35,7 +33,7 @@ const props = defineProps<Props>();
 type LayoutConfig = Record<
   UnionKey.ThemeLayoutMode,
   {
-    placement: PopoverPlacement;
+    placement: TooltipPlacement;
     menuClass: string;
     mainClass: string;
   }
@@ -43,7 +41,7 @@ type LayoutConfig = Record<
 
 const layoutConfig: LayoutConfig = {
   vertical: {
-    placement: 'bottom-start',
+    placement: 'bottomLeft',
     menuClass: 'w-1/3 h-full',
     mainClass: 'w-2/3 h-3/4'
   },
@@ -58,7 +56,7 @@ const layoutConfig: LayoutConfig = {
     mainClass: 'w-full h-3/4'
   },
   'horizontal-mix': {
-    placement: 'bottom-end',
+    placement: 'bottomRight',
     menuClass: 'w-full h-1/4',
     mainClass: 'w-2/3 h-3/4'
   }

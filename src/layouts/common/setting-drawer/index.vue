@@ -1,18 +1,26 @@
 <template>
-  <n-drawer :show="app.settingDrawerVisible" display-directive="show" :width="330" @mask-click="app.closeSettingDrawer">
-    <n-drawer-content title="主题配置" :native-scrollbar="false">
+  <Drawer
+    :open="app.settingDrawerVisible"
+    :width="330"
+    title="主题配置"
+    :closable="false"
+    mask-closable
+    @close="app.closeSettingDrawer"
+  >
+    <div>
       <dark-mode />
       <layout-mode />
       <theme-color-select />
       <page-func />
       <page-view />
       <theme-config />
-    </n-drawer-content>
-  </n-drawer>
+    </div>
+  </Drawer>
   <drawer-button v-if="showButton" />
 </template>
 
 <script setup lang="ts">
+import { Drawer } from 'ant-design-vue';
 import { useAppStore } from '@/store';
 import { DarkMode, DrawerButton, LayoutMode, PageFunc, PageView, ThemeColorSelect, ThemeConfig } from './components';
 

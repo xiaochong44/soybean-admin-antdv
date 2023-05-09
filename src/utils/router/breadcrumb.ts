@@ -62,7 +62,7 @@ function transformBreadcrumbMenuToBreadcrumb(menu: App.GlobalMenuOption, rootPat
     hasChildren
   };
   if (menu.icon) {
-    breadcrumb.icon = menu.icon;
+    breadcrumb.icon = menu.icon as any;
   }
   if (hasChildren) {
     breadcrumb.options = menu.children?.map(item =>

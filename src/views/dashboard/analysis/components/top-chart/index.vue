@@ -1,7 +1,7 @@
 <template>
-  <n-grid :x-gap="16" :y-gap="16" :item-responsive="true">
-    <n-grid-item span="0:24 640:24 1024:6">
-      <n-card :bordered="false" class="rounded-16px shadow-sm">
+  <Row :gutter="[16, 16]" :responsive="true">
+    <Col :sm="24" :md="6">
+      <Card :bordered="false" class="rounded-16px shadow-sm">
         <div class="w-full h-360px py-12px">
           <h3 class="text-16px font-bold">Dashboard</h3>
           <p class="text-#aaa">Overview Of Lasted Month</p>
@@ -13,26 +13,27 @@
             <count-to :start-value="0" :end-value="1234" />
           </h3>
           <p class="text-#aaa">Current Month Sales</p>
-          <n-button class="mt-24px whitespace-pre-wrap" type="primary">Last Month Summary</n-button>
+          <Button class="mt-24px whitespace-pre-wrap" type="primary">Last Month Summary</Button>
         </div>
-      </n-card>
-    </n-grid-item>
-    <n-grid-item span="0:24 640:24 1024:10">
-      <n-card :bordered="false" class="rounded-16px shadow-sm">
+      </Card>
+    </Col>
+    <Col :sm="24" :md="10">
+      <Card :bordered="false" class="rounded-16px shadow-sm">
         <div ref="lineRef" class="w-full h-360px"></div>
-      </n-card>
-    </n-grid-item>
-    <n-grid-item span="0:24 640:24 1024:8">
-      <n-card :bordered="false" class="rounded-16px shadow-sm">
+      </Card>
+    </Col>
+    <Col :sm="24" :md="8">
+      <Card :bordered="false" class="rounded-16px shadow-sm">
         <div ref="pieRef" class="w-full h-360px"></div>
-      </n-card>
-    </n-grid-item>
-  </n-grid>
+      </Card>
+    </Col>
+  </Row>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Ref } from 'vue';
+import { Row, Col, Card, Button } from 'ant-design-vue';
 import { type ECOption, useEcharts } from '@/composables';
 
 defineOptions({ name: 'DashboardAnalysisTopCard' });

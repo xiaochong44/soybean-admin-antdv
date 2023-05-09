@@ -1,24 +1,27 @@
 <template>
-  <n-scrollbar class="flex-1-hidden">
-    <n-menu
-      :value="activeKey"
+  <div class="flex-1 overflow-y-auto">
+    <Menu
+      :selected-keys="[activeKey]"
       :collapsed="app.siderCollapse"
       :collapsed-width="theme.sider.collapsedWidth"
       :collapsed-icon-size="22"
-      :options="menus"
+      :items="menus"
+      :inline-indent="18"
+      :mode="app.siderCollapse ? 'vertical' : 'inline'"
+      :inline-collapsed="app.siderCollapse"
       :expanded-keys="expandedKeys"
-      :indent="18"
-      :inverted="!theme.darkMode && theme.sider.inverted"
-      @update:value="handleUpdateMenu"
+      :theme="!theme.darkMode && theme.sider.inverted ? 'dark' : 'light'"
+      @click="handleUpdateMenu"
       @update:expanded-keys="handleUpdateExpandedKeys"
     />
-  </n-scrollbar>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import type { MenuOption } from 'naive-ui';
+import type { MenuInfo } from 'ant-design-vue/es/menu/src/interface';
+import { Menu } from 'ant-design-vue';
 import { useAppStore, useRouteStore, useThemeStore } from '@/store';
 import { useRouterPush } from '@/composables';
 import { getActiveKeyPathsOfMenus } from '@/utils';
@@ -36,9 +39,8 @@ const menus = computed(() => routeStore.menus as App.GlobalMenuOption[]);
 const activeKey = computed(() => (route.meta?.activeMenu ? route.meta.activeMenu : route.name) as string);
 const expandedKeys = ref<string[]>([]);
 
-function handleUpdateMenu(_key: string, item: MenuOption) {
-  const menuItem = item as App.GlobalMenuOption;
-  routerPush(menuItem.routePath);
+function handleUpdateMenu(e: MenuInfo) {
+  routerPush(e.item.routePath);
 }
 
 function handleUpdateExpandedKeys(keys: string[]) {

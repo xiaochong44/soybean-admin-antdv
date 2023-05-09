@@ -1,5 +1,5 @@
 <template>
-  <n-card :bordered="false" class="rounded-16px shadow-sm">
+  <Card :bordered="false" class="rounded-16px shadow-sm">
     <div class="flex-y-center justify-between">
       <div class="flex-y-center">
         <icon-local-avatar class="text-70px" />
@@ -8,14 +8,15 @@
           <p class="leading-30px text-#999">今日多云转晴，20℃ - 25℃！</p>
         </div>
       </div>
-      <n-space :size="24" :wrap="false">
-        <n-statistic v-for="item in statisticData" :key="item.id" class="whitespace-nowrap" v-bind="item"></n-statistic>
-      </n-space>
+      <Space :size="24" :wrap="false">
+        <Statistic v-for="item in statisticData" :key="item.id" class="whitespace-nowrap" v-bind="item"></Statistic>
+      </Space>
     </div>
-  </n-card>
+  </Card>
 </template>
 
 <script setup lang="ts">
+import { Card, Space, Statistic } from 'ant-design-vue';
 import { useAuthStore } from '@/store';
 
 defineOptions({ name: 'DashboardWorkbenchHeader' });

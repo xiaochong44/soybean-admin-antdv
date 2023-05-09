@@ -1,40 +1,42 @@
 <template>
-  <div class="h-full overflow-hidden">
-    <n-card title="用户管理" :bordered="false" class="rounded-16px shadow-sm">
-      <n-space class="pb-12px" justify="space-between">
-        <n-space>
-          <n-button type="primary" @click="handleAddTable">
-            <icon-ic-round-plus class="mr-4px text-20px" />
+  <div>
+    <Card title="用户管理" :bordered="false" class="rounded-16px shadow-sm">
+      <div class="pb-12px flex justify-between">
+        <Space>
+          <Button type="primary" @click="handleAddTable">
+            <template #icon><PlusOutlined /></template>
             新增
-          </n-button>
-          <n-button type="error">
-            <icon-ic-round-delete class="mr-4px text-20px" />
+          </Button>
+          <Button danger type="primary">
+            <template #icon><DeleteOutlined /></template>
             删除
-          </n-button>
-          <n-button type="success">
-            <icon-uil:export class="mr-4px text-20px" />
+          </Button>
+          <Button>
+            <template #icon><ExportOutlined /></template>
             导出Excel
-          </n-button>
-        </n-space>
-        <n-space align="center" :size="18">
-          <n-button size="small" type="primary" @click="getTableData">
-            <icon-mdi-refresh class="mr-4px text-16px" :class="{ 'animate-spin': loading }" />
+          </Button>
+        </Space>
+        <Space :size="18">
+          <Button type="primary" @click="getTableData">
+            <template #icon><ReloadOutlined /></template>
             刷新表格
-          </n-button>
+          </Button>
           <column-setting v-model:columns="columns" />
-        </n-space>
-      </n-space>
-      <n-data-table :columns="columns" :data="tableData" :loading="loading" :pagination="pagination" />
+        </Space>
+      </div>
+      <Table :columns="columns" :data-source="tableData" :loading="loading" :pagination="pagination" />
       <table-action-modal v-model:visible="visible" :type="modalType" :edit-data="editData" />
-    </n-card>
+    </Card>
   </div>
 </template>
 
 <script setup lang="tsx">
 import { reactive, ref } from 'vue';
 import type { Ref } from 'vue';
-import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
-import type { DataTableColumns, PaginationProps } from 'naive-ui';
+import type { TablePaginationConfig } from 'ant-design-vue';
+import { ExportOutlined, DeleteOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons-vue';
+import { Card, Button, Table, Space, Tag, Popconfirm, message } from 'ant-design-vue';
+import type { ColumnType } from 'ant-design-vue/es/table/interface';
 import { genderLabels, userStatusLabels } from '@/constants';
 import { fetchUserList } from '@/service';
 import { useBoolean, useLoading } from '@/hooks';
@@ -60,24 +62,37 @@ async function getTableData() {
     }, 1000);
   }
 }
-
-const columns: Ref<DataTableColumns<UserManagement.User>> = ref([
-  {
-    type: 'selection',
-    align: 'center'
+const pagination: TablePaginationConfig = reactive({
+  current: 1,
+  pageSize: 10,
+  showSizePicker: true,
+  pageSizes: [10, 15, 20, 25, 30],
+  onChange: (page: number) => {
+    pagination.current = page;
   },
+  onUpdatePageSize: (pageSize: number) => {
+    pagination.pageSize = pageSize;
+    pagination.current = 1;
+  }
+});
+
+const columns: Ref<ColumnType<UserManagement.User>[]> = ref([
   {
     key: 'index',
     title: '序号',
-    align: 'center'
+    align: 'center',
+    customRender: e => {
+      return (pagination.current! - 1) * pagination.pageSize! + e.index + 1;
+    }
   },
   {
     key: 'userName',
+    dataIndex: 'userName',
     title: '用户名',
     align: 'center'
   },
   {
-    key: 'age',
+    dataIndex: 'age',
     title: '用户年龄',
     align: 'center'
   },
@@ -85,26 +100,26 @@ const columns: Ref<DataTableColumns<UserManagement.User>> = ref([
     key: 'gender',
     title: '性别',
     align: 'center',
-    render: row => {
-      if (row.gender) {
+    customRender: row => {
+      if (row.record.gender) {
         const tagTypes: Record<UserManagement.GenderKey, NaiveUI.ThemeColor> = {
           '0': 'success',
           '1': 'warning'
         };
 
-        return <NTag type={tagTypes[row.gender]}>{genderLabels[row.gender]}</NTag>;
+        return <Tag color={tagTypes[row.record.gender]}>{genderLabels[row.record.gender]}</Tag>;
       }
 
       return <span></span>;
     }
   },
   {
-    key: 'phone',
+    dataIndex: 'phone',
     title: '手机号码',
     align: 'center'
   },
   {
-    key: 'email',
+    dataIndex: 'email',
     title: '邮箱',
     align: 'center'
   },
@@ -112,8 +127,8 @@ const columns: Ref<DataTableColumns<UserManagement.User>> = ref([
     key: 'userStatus',
     title: '状态',
     align: 'center',
-    render: row => {
-      if (row.userStatus) {
+    customRender: row => {
+      if (row.record.userStatus) {
         const tagTypes: Record<UserManagement.UserStatusKey, NaiveUI.ThemeColor> = {
           '1': 'success',
           '2': 'error',
@@ -121,7 +136,7 @@ const columns: Ref<DataTableColumns<UserManagement.User>> = ref([
           '4': 'default'
         };
 
-        return <NTag type={tagTypes[row.userStatus]}>{userStatusLabels[row.userStatus]}</NTag>;
+        return <Tag color={tagTypes[row.record.userStatus]}>{userStatusLabels[row.record.userStatus]}</Tag>;
       }
       return <span></span>;
     }
@@ -130,23 +145,22 @@ const columns: Ref<DataTableColumns<UserManagement.User>> = ref([
     key: 'actions',
     title: '操作',
     align: 'center',
-    render: row => {
+    customRender: row => {
       return (
-        <NSpace justify={'center'}>
-          <NButton size={'small'} onClick={() => handleEditTable(row.id)}>
+        <Space>
+          <Button size={'small'} onClick={() => handleEditTable(row.record.id)}>
             编辑
-          </NButton>
-          <NPopconfirm onPositiveClick={() => handleDeleteTable(row.id)}>
+          </Button>
+          <Popconfirm onConfirm={() => handleDeleteTable(row.record.id)} title="确认删除">
             {{
-              default: () => '确认删除',
-              trigger: () => <NButton size={'small'}>删除</NButton>
+              default: () => <Button size={'small'}>删除</Button>
             }}
-          </NPopconfirm>
-        </NSpace>
+          </Popconfirm>
+        </Space>
       );
     }
   }
-]) as Ref<DataTableColumns<UserManagement.User>>;
+]) as Ref<ColumnType<UserManagement.User>[]>;
 
 const modalType = ref<ModalType>('add');
 
@@ -175,22 +189,8 @@ function handleEditTable(rowId: string) {
 }
 
 function handleDeleteTable(rowId: string) {
-  window.$message?.info(`点击了删除，rowId为${rowId}`);
+  message?.info(`点击了删除，rowId为${rowId}`);
 }
-
-const pagination: PaginationProps = reactive({
-  page: 1,
-  pageSize: 10,
-  showSizePicker: true,
-  pageSizes: [10, 15, 20, 25, 30],
-  onChange: (page: number) => {
-    pagination.page = page;
-  },
-  onUpdatePageSize: (pageSize: number) => {
-    pagination.pageSize = pageSize;
-    pagination.page = 1;
-  }
-});
 
 function init() {
   getTableData();

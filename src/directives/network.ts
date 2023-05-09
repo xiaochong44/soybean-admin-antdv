@@ -1,11 +1,12 @@
 import type { App, Directive } from 'vue';
+import { message } from 'ant-design-vue';
 import { NETWORK_ERROR_MSG } from '@/config';
 
 export default function setupNetworkDirective(app: App) {
   function listenerHandler(event: MouseEvent) {
     const hasNetwork = window.navigator.onLine;
     if (!hasNetwork) {
-      window.$message?.error(NETWORK_ERROR_MSG);
+      message.error(NETWORK_ERROR_MSG);
       event.stopPropagation();
     }
   }

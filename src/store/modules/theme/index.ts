@@ -1,21 +1,17 @@
 import { defineStore } from 'pinia';
-import { darkTheme } from 'naive-ui';
+import { theme as antdTheme } from 'ant-design-vue';
 import { localStg } from '@/utils';
-import { getNaiveThemeOverrides, initThemeSettings } from './helpers';
+import { initThemeSettings } from './helpers';
 
 type ThemeState = Theme.Setting;
 
 export const useThemeStore = defineStore('theme-store', {
   state: (): ThemeState => initThemeSettings(),
   getters: {
-    /** naiveUI的主题配置 */
-    naiveThemeOverrides(state) {
-      const overrides = getNaiveThemeOverrides({ primary: state.themeColor, ...state.otherColor });
-      return overrides;
-    },
-    /** naive-ui暗黑主题 */
-    naiveTheme(state) {
-      return state.darkMode ? darkTheme : undefined;
+    antdToken(state) {
+      return state.darkMode
+        ? antdTheme.darkAlgorithm({ ...antdTheme.defaultSeed, colorPrimary: state.themeColor })
+        : antdTheme.defaultAlgorithm({ ...antdTheme.defaultSeed, colorPrimary: state.themeColor });
     },
     /** 页面动画模式 */
     pageAnimateMode(state) {

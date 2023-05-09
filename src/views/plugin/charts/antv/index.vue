@@ -1,28 +1,31 @@
 <template>
-  <n-space :vertical="true" :size="16">
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="pieRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="lineRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="barRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="scatterRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="areaRef" class="h-400px"></div>
-    </n-card>
-    <n-card :bordered="false" class="rounded-16px shadow-sm">
-      <div ref="radarRef" class="h-400px"></div>
-    </n-card>
-  </n-space>
+  <div class="p-4">
+    <Space direction="vertical" :size="16" style="width: 100%">
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="pieRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="lineRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="barRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="scatterRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="areaRef" class="h-400px"></div>
+      </Card>
+      <Card :bordered="false" class="rounded-16px shadow-sm">
+        <div ref="radarRef" class="h-400px"></div>
+      </Card>
+    </Space>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { Space, Card } from 'ant-design-vue';
 import DataSet from '@antv/data-set';
 import { Chart } from '@antv/g2';
 

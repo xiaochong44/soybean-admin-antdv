@@ -1,16 +1,17 @@
 <template>
   <div class="h-full">
-    <n-card title="打印" class="shadow-sm rounded-16px">
-      <n-button type="primary" class="mr-10px" @click="printTable">打印表格</n-button>
-      <n-button type="primary" @click="printImage">打印图片</n-button>
+    <Card title="打印" class="shadow-sm rounded-16px">
+      <Button type="primary" class="mr-10px" @click="printTable">打印表格</Button>
+      <Button type="primary" @click="printImage">打印图片</Button>
       <template #footer>
         <github-link label="printJS：" link="https://github.com/crabbly/Print.js" class="mt-10px" />
       </template>
-    </n-card>
+    </Card>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Card, Button } from 'ant-design-vue';
 import printJS from 'print-js';
 
 function printTable() {

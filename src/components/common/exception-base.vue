@@ -6,12 +6,13 @@
       <icon-local-service-error v-if="type === '500'" />
     </div>
     <router-link :to="{ name: routeHomePath }">
-      <n-button type="primary">回到首页</n-button>
+      <Button type="primary">回到首页</Button>
     </router-link>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Button } from 'ant-design-vue';
 import { routeName } from '@/router';
 
 defineOptions({ name: 'ExceptionBase' });

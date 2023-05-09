@@ -118,16 +118,6 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
             requiresAuth: true,
             icon: 'mdi:card-outline'
           }
-        },
-        {
-          name: 'component_table',
-          path: '/component/table',
-          component: 'self',
-          meta: {
-            title: '表格',
-            requiresAuth: true,
-            icon: 'mdi:table-large'
-          }
         }
       ],
       meta: {
@@ -628,16 +618,6 @@ export const routeModel: Record<Auth.RoleType, AuthRoute.Route[]> = {
             title: '卡片',
             requiresAuth: true,
             icon: 'mdi:card-outline'
-          }
-        },
-        {
-          name: 'component_table',
-          path: '/component/table',
-          component: 'self',
-          meta: {
-            title: '表格',
-            requiresAuth: true,
-            icon: 'mdi:table-large'
           }
         }
       ],

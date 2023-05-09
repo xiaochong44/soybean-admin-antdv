@@ -1,36 +1,33 @@
 <template>
-  <n-modal
-    v-model:show="show"
-    :segmented="{ footer: 'soft' }"
+  <Modal
+    v-model:open="show"
     :closable="false"
-    preset="card"
     footer-style="padding: 0; margin: 0"
     class="fixed left-0 right-0"
     :class="[isMobile ? 'wh-full top-0px rounded-0' : 'w-630px top-50px']"
-    @after-leave="handleClose"
   >
-    <n-input-group>
-      <n-input ref="inputRef" v-model:value="keyword" clearable placeholder="请输入关键词搜索" @input="handleSearch">
+    <InputGroup>
+      <Input ref="inputRef" v-model:value="keyword" clearable placeholder="请输入关键词搜索" @input="handleSearch">
         <template #prefix>
           <icon-uil-search class="text-15px text-#c2c2c2" />
         </template>
-      </n-input>
-      <n-button v-if="isMobile" type="primary" ghost @click="handleClose">取消</n-button>
-    </n-input-group>
+      </Input>
+    </InputGroup>
 
     <div class="mt-20px">
-      <n-empty v-if="resultOptions.length === 0" description="暂无搜索结果" />
+      <Empty v-if="resultOptions.length === 0" description="暂无搜索结果" />
       <search-result v-else v-model:value="activePath" :options="resultOptions" @enter="handleEnter" />
     </div>
     <template #footer>
       <search-footer v-if="!isMobile" />
     </template>
-  </n-modal>
+  </Modal>
 </template>
 
 <script lang="ts" setup>
 import { computed, nextTick, ref, shallowRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { Modal, InputGroup, Input, Empty } from 'ant-design-vue';
 import { onKeyStroke, useDebounceFn } from '@vueuse/core';
 import { useRouteStore } from '@/store';
 import { useBasicLayout } from '@/composables';
@@ -77,6 +74,11 @@ watch(show, async val => {
     /** 自动聚焦 */
     await nextTick();
     inputRef.value?.focus();
+  } else {
+    setTimeout(() => {
+      resultOptions.value = [];
+      keyword.value = '';
+    }, 200);
   }
 });
 

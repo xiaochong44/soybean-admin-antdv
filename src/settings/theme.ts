@@ -8,7 +8,7 @@ import {
 import jsonSetting from './theme.json';
 
 const themeColorList = [
-  '#1890ff',
+  '#1677ff',
   '#409EFF',
   '#2d8cf0',
   '#007AFF',

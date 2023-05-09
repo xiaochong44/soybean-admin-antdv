@@ -15,7 +15,6 @@ export const views: Record<
   'auth-demo_super': () => import('./auth-demo/super/index.vue'),
   component_button: () => import('./component/button/index.vue'),
   component_card: () => import('./component/card/index.vue'),
-  component_table: () => import('./component/table/index.vue'),
   dashboard_analysis: () => import('./dashboard/analysis/index.vue'),
   dashboard_workbench: () => import('./dashboard/workbench/index.vue'),
   document_naive: () => import('./document/naive/index.vue'),

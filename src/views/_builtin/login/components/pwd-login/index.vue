@@ -1,17 +1,17 @@
 <template>
-  <n-form ref="formRef" :model="model" :rules="rules" size="large" :show-label="false">
-    <n-form-item path="userName">
-      <n-input v-model:value="model.userName" placeholder="请输入用户名" />
-    </n-form-item>
-    <n-form-item path="password">
-      <n-input v-model:value="model.password" type="password" show-password-on="click" placeholder="请输入密码" />
-    </n-form-item>
-    <n-space :vertical="true" :size="24">
+  <Form ref="formRef" :model="model" :rules="rules" size="large" :show-label="false">
+    <FormItem name="userName">
+      <Input v-model:value="model.userName" placeholder="请输入用户名" />
+    </FormItem>
+    <FormItem name="password">
+      <Input v-model:value="model.password" type="password" show-password-on="click" placeholder="请输入密码" />
+    </FormItem>
+    <div>
       <div class="flex-y-center justify-between">
-        <n-checkbox v-model:checked="rememberMe">记住我</n-checkbox>
-        <n-button :text="true" @click="toLoginModule('reset-pwd')">忘记密码？</n-button>
+        <Checkbox v-model:checked="rememberMe">记住我</Checkbox>
       </div>
-      <n-button
+      <Button
+        class="mt-6"
         type="primary"
         size="large"
         :block="true"
@@ -20,43 +20,32 @@
         @click="handleSubmit"
       >
         确定
-      </n-button>
-      <div class="flex-y-center justify-between">
-        <n-button class="flex-1" :block="true" @click="toLoginModule('code-login')">
-          {{ loginModuleLabels['code-login'] }}
-        </n-button>
-        <div class="w-12px"></div>
-        <n-button class="flex-1" :block="true" @click="toLoginModule('register')">
-          {{ loginModuleLabels.register }}
-        </n-button>
-      </div>
-    </n-space>
-    <other-account @login="handleLoginOtherAccount" />
-  </n-form>
+      </Button>
+    </div>
+  </Form>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import type { FormInst, FormRules } from 'naive-ui';
-import { loginModuleLabels } from '@/constants';
+import type { FormInstance } from 'ant-design-vue';
+import { Input, Button, Form, Checkbox } from 'ant-design-vue';
 import { useAuthStore } from '@/store';
-import { useRouterPush } from '@/composables';
-import { formRules } from '@/utils';
-import { OtherAccount } from './components';
+import { formRules, createAntRequiredFormRule } from '@/utils';
 
+const FormItem = Form.Item;
 const auth = useAuthStore();
 const { login } = useAuthStore();
-const { toLoginModule } = useRouterPush();
 
-const formRef = ref<HTMLElement & FormInst>();
+const formRef = ref<HTMLElement & FormInstance>();
 
 const model = reactive({
   userName: 'Soybean',
   password: 'soybean123'
 });
 
-const rules: FormRules = {
-  password: formRules.pwd
+const rules = {
+  password: formRules.pwd,
+  userName: createAntRequiredFormRule('请输入用户名')
 };
 
 const rememberMe = ref(false);
@@ -66,11 +55,6 @@ async function handleSubmit() {
 
   const { userName, password } = model;
 
-  login(userName, password);
-}
-
-function handleLoginOtherAccount(param: { userName: string; password: string }) {
-  const { userName, password } = param;
   login(userName, password);
 }
 </script>

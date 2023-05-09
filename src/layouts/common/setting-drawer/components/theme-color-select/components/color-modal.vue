@@ -1,28 +1,33 @@
 <template>
-  <n-modal :show="visible" preset="card" class="w-640px h-480px" :z-index="10001" @close="handleClose">
+  <Modal :open="visible" width="640px" :z-index="10001" :footer="false" @cancel="handleClose">
     <div class="flex-x-center">
-      <n-gradient-text type="primary" :size="24">中国传统颜色</n-gradient-text>
+      <div class="text-primary text-24px">中国传统颜色</div>
     </div>
-    <n-tabs>
-      <n-tab-pane v-for="item in traditionColors" :key="item.label" :name="item.label" :tab="item.label">
-        <n-grid :cols="8" :x-gap="16" :y-gap="8">
-          <n-grid-item v-for="i in item.data" :key="i.label">
-            <color-checkbox
-              class="!w-full !h-36px !rounded-4px"
-              :color="i.color"
-              :checked="i.color === theme.themeColor"
-              icon-class="text-20px"
-              @click="theme.setThemeColor(i.color)"
-            />
-            <p class="text-center">{{ i.label }}</p>
-          </n-grid-item>
-        </n-grid>
-      </n-tab-pane>
-    </n-tabs>
-  </n-modal>
+    <div class="h-430px">
+      <Tabs>
+        <TabPane v-for="item in traditionColors" :key="item.label" :name="item.label" :tab="item.label">
+          <Row :gutter="[12, 16]">
+            <Col v-for="i in item.data" :key="i.label" span="3" class="flex-x-center">
+              <div class="w-full">
+                <color-checkbox
+                  class="!w-full !h-36px !rounded-4px"
+                  :color="i.color"
+                  :checked="i.color === theme.themeColor.toUpperCase()"
+                  icon-class="text-20px"
+                  @click="theme.setThemeColor(i.color)"
+                />
+                <p class="text-center">{{ i.label }}</p>
+              </div>
+            </Col>
+          </Row>
+        </TabPane>
+      </Tabs>
+    </div>
+  </Modal>
 </template>
 
 <script setup lang="ts">
+import { Modal, Tabs, TabPane, Row, Col } from 'ant-design-vue';
 import { traditionColors } from '@/settings';
 import { useThemeStore } from '@/store';
 import ColorCheckbox from './color-checkbox.vue';

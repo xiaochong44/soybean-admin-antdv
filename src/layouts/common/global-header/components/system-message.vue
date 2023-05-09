@@ -1,54 +1,51 @@
 <template>
-  <n-popover class="!p-0" trigger="click" placement="bottom">
-    <template #trigger>
-      <hover-container tooltip-content="消息通知" :inverted="theme.header.inverted" class="relative w-40px h-full">
-        <icon-clarity:notification-line class="text-18px" />
-        <n-badge
-          :value="count"
-          :max="99"
-          :class="[count < 10 ? '-right-2px' : '-right-10px']"
-          class="absolute top-10px"
-        />
-      </hover-container>
+  <Popover class="!p-0" trigger="click" placement="bottomRight" :overlay-inner-style="{ padding: 0 }">
+    <template #content>
+      <Tabs
+        v-model:value="currentTab"
+        :class="[isMobile ? 'w-276px' : 'w-360px']"
+        type="line"
+        justify-content="space-evenly"
+      >
+        <TabPane v-for="(item, index) in tabData" :key="item.key" :name="index">
+          <template #tab>
+            <div class="flex-x-center items-center" :class="[isMobile ? 'w-92px' : 'w-90px']">
+              <span class="mr-5px">{{ item.name }}</span>
+              <Badge
+                v-bind="item.badgeProps"
+                :count="item.list.filter(message => !message.isRead).length"
+                :overflow-count="99"
+                show-zero
+              />
+            </div>
+          </template>
+          <loading-empty-wrapper
+            class="h-360px"
+            :loading="loading"
+            :empty="item.list.length === 0"
+            placeholder-class="bg-$n-color transition-background-color duration-300 ease-in-out"
+          >
+            <message-list :list="(item.list as any)" @read="handleRead" />
+          </loading-empty-wrapper>
+        </TabPane>
+      </Tabs>
+      <div v-if="showAction" class="flex border-t border-gray-200 cursor-pointer">
+        <div class="flex-1 text-center py-10px" @click="handleClear">清空</div>
+        <div class="flex-1 text-center py-10px border-l border-gray-200" @click="handleAllRead">全部已读</div>
+        <div class="flex-1 text-center py-10px border-l border-gray-200" @click="handleLoadMore">查看更多</div>
+      </div>
     </template>
-    <n-tabs
-      v-model:value="currentTab"
-      :class="[isMobile ? 'w-276px' : 'w-360px']"
-      type="line"
-      justify-content="space-evenly"
-    >
-      <n-tab-pane v-for="(item, index) in tabData" :key="item.key" :name="index">
-        <template #tab>
-          <div class="flex-x-center items-center" :class="[isMobile ? 'w-92px' : 'w-120px']">
-            <span class="mr-5px">{{ item.name }}</span>
-            <n-badge
-              v-bind="item.badgeProps"
-              :value="item.list.filter(message => !message.isRead).length"
-              :max="99"
-              show-zero
-            />
-          </div>
-        </template>
-        <loading-empty-wrapper
-          class="h-360px"
-          :loading="loading"
-          :empty="item.list.length === 0"
-          placeholder-class="bg-$n-color transition-background-color duration-300 ease-in-out"
-        >
-          <message-list :list="item.list" @read="handleRead" />
-        </loading-empty-wrapper>
-      </n-tab-pane>
-    </n-tabs>
-    <div v-if="showAction" class="flex border-t border-$n-divider-color cursor-pointer">
-      <div class="flex-1 text-center py-10px" @click="handleClear">清空</div>
-      <div class="flex-1 text-center py-10px border-l border-$n-divider-color" @click="handleAllRead">全部已读</div>
-      <div class="flex-1 text-center py-10px border-l border-$n-divider-color" @click="handleLoadMore">查看更多</div>
-    </div>
-  </n-popover>
+    <hover-container tooltip-content="消息通知" :inverted="theme.header.inverted" class="relative w-40px h-full">
+      <Badge :count="count" dot>
+        <icon-clarity:notification-line class="text-18px" />
+      </Badge>
+    </hover-container>
+  </Popover>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { Popover, Badge, Tabs, TabPane } from 'ant-design-vue';
 import { useThemeStore } from '@/store';
 import { useBasicLayout } from '@/composables';
 import { useBoolean } from '@/hooks';
@@ -66,7 +63,7 @@ const tabData = ref<App.MessageTab[]>([
   {
     key: 1,
     name: '通知',
-    badgeProps: { type: 'warning' },
+    badgeProps: { status: 'warning' },
     list: [
       { id: 1, icon: 'ri:message-3-line', title: '你收到了5条新消息', date: '2022-06-17' },
       { id: 4, icon: 'ri:message-3-line', title: 'Soybean Admin 1.0.0 版本正在筹备中', date: '2022-06-17' },
@@ -83,7 +80,7 @@ const tabData = ref<App.MessageTab[]>([
   {
     key: 2,
     name: '消息',
-    badgeProps: { type: 'error' },
+    badgeProps: { status: 'error' },
     list: [
       {
         id: 1,
@@ -125,7 +122,7 @@ const tabData = ref<App.MessageTab[]>([
   {
     key: 3,
     name: '待办',
-    badgeProps: { type: 'info' },
+    badgeProps: { status: 'processing' },
     list: [
       {
         id: 1,
@@ -134,7 +131,7 @@ const tabData = ref<App.MessageTab[]>([
         description: '任务正在计划中',
         date: '2022-06-17',
         tagTitle: '未开始',
-        tagProps: { type: 'default' }
+        tagProps: { color: 'default' }
       },
       {
         id: 2,
@@ -143,7 +140,7 @@ const tabData = ref<App.MessageTab[]>([
         description: '任务正在计划中',
         date: '2022-06-17',
         tagTitle: '未开始',
-        tagProps: { type: 'default' }
+        tagProps: { color: 'default' }
       },
       {
         id: 3,
@@ -152,7 +149,7 @@ const tabData = ref<App.MessageTab[]>([
         description: '任务正在计划中',
         date: '2022-06-17',
         tagTitle: '未开始',
-        tagProps: { type: 'default' }
+        tagProps: { color: 'default' }
       },
       {
         id: 4,
@@ -161,7 +158,7 @@ const tabData = ref<App.MessageTab[]>([
         description: '任务正在计划中',
         date: '2022-06-17',
         tagTitle: '未开始',
-        tagProps: { type: 'default' }
+        tagProps: { color: 'default' }
       },
       {
         id: 5,
@@ -170,7 +167,7 @@ const tabData = ref<App.MessageTab[]>([
         description: '任务正在计划中',
         date: '2022-06-17',
         tagTitle: '未开始',
-        tagProps: { type: 'default' }
+        tagProps: { color: 'default' }
       },
       {
         id: 6,
@@ -179,7 +176,7 @@ const tabData = ref<App.MessageTab[]>([
         description: '任务正在计划中',
         date: '2022-06-17',
         tagTitle: '未开始',
-        tagProps: { type: 'default' }
+        tagProps: { color: 'default' }
       }
     ]
   }
