@@ -1,52 +1,56 @@
 <template>
-  <n-grid :item-responsive="true" :x-gap="16" :y-gap="16">
-    <n-grid-item span="0:24 640:24 1024:16">
-      <n-space :vertical="true" :size="16">
-        <n-card title="项目主要技术栈" :bordered="false" size="small" class="shadow-sm rounded-16px">
+  <Row :gutter="[16, 16]">
+    <Col :sm="24" :md="16">
+      <Space direction="vertical" :size="16" style="width: 100%">
+        <Card title="项目主要技术栈" :bordered="false" size="small" class="shadow-sm rounded-16px">
           <template #header-extra>
             <a class="text-primary" href="javascript:;">更多技术栈</a>
           </template>
-          <n-grid :item-responsive="true" responsive="screen" cols="m:2 l:3" :x-gap="8" :y-gap="8">
-            <n-grid-item v-for="item in technology" :key="item.id">
+          <Row :gutter="[8, 8]">
+            <Col v-for="item in technology" :key="item.id" :span="8">
               <technology-card v-bind="item" />
-            </n-grid-item>
-          </n-grid>
-        </n-card>
-        <n-card title="动态" :bordered="false" size="small" class="shadow-sm rounded-16px">
+            </Col>
+          </Row>
+        </Card>
+        <Card title="动态" :bordered="false" size="small" class="shadow-sm rounded-16px">
           <template #header-extra>
             <a class="text-primary" href="javascript:;">更多动态</a>
           </template>
-          <n-list>
-            <n-list-item v-for="item in activity" :key="item.id">
-              <template #prefix>
-                <icon-local-avatar class="text-48px" />
-              </template>
-              <n-thing :title="item.content" :description="item.time" />
-            </n-list-item>
-          </n-list>
-        </n-card>
-      </n-space>
-    </n-grid-item>
-    <n-grid-item span="0:24 640:24 1024:8">
-      <n-space :vertical="true" :size="16">
-        <n-card title="快捷操作" :bordered="false" size="small" class="shadow-sm rounded-16px">
-          <n-grid :item-responsive="true" responsive="screen" cols="m:2 l:3" :x-gap="8" :y-gap="8">
-            <n-grid-item v-for="item in shortcuts" :key="item.id">
+          <List :data-source="activity">
+            <template #renderItem="{ item }">
+              <ListItem>
+                <ListItemMeta :title="item.content" :description="item.time">
+                  <template #avatar>
+                    <icon-local-avatar class="text-48px" />
+                  </template>
+                </ListItemMeta>
+              </ListItem>
+            </template>
+          </List>
+        </Card>
+      </Space>
+    </Col>
+    <Col span="0:24 640:24 1024:8" :sm="24" :md="8">
+      <Space direction="vertical" :size="16" style="width: 100%">
+        <Card title="快捷操作" :bordered="false" size="small" class="shadow-sm rounded-16px">
+          <Row :gutter="[8, 8]">
+            <Col v-for="item in shortcuts" :key="item.id" :span="8">
               <shortcuts-card v-bind="item" />
-            </n-grid-item>
-          </n-grid>
-        </n-card>
-        <n-card title="创意" :bordered="false" size="small" class="shadow-sm rounded-16px">
+            </Col>
+          </Row>
+        </Card>
+        <Card title="创意" :bordered="false" size="small" class="shadow-sm rounded-16px">
           <div class="flex-center h-380px">
             <icon-local-banner class="text-400px sm:text-320px text-primary" />
           </div>
-        </n-card>
-      </n-space>
-    </n-grid-item>
-  </n-grid>
+        </Card>
+      </Space>
+    </Col>
+  </Row>
 </template>
 
 <script setup lang="ts">
+import { Row, Col, Space, Card, List, ListItem, ListItemMeta } from 'ant-design-vue';
 import { ShortcutsCard, TechnologyCard } from './components';
 
 defineOptions({ name: 'DashboardWorkbenchMain' });
