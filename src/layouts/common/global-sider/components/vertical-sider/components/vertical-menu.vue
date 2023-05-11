@@ -9,7 +9,7 @@
       :inline-indent="18"
       :mode="app.siderCollapse ? 'vertical' : 'inline'"
       :inline-collapsed="app.siderCollapse"
-      :expanded-keys="expandedKeys"
+      :open-keys="expandedKeys"
       :theme="!theme.darkMode && theme.sider.inverted ? 'dark' : 'light'"
       @click="handleUpdateMenu"
       @update:expanded-keys="handleUpdateExpandedKeys"
